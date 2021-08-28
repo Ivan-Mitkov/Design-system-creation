@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "node-sass": "^6.0.1",
     "normalize-scss": "^7.0.1",
     "prettier": "^2.3.2",
     "stylelint": "^13.13.1",
@@ -13,15 +14,16 @@
   },
   "scripts": {
     "lint": "stylelint \"./**/*.{css,scss,sass}\"",
-    "lint:fix": "yarn lint --fix"
+    "lint:fix": "yarn lint --fix",
+    "build": "node src/scripts/build.js"
   },
-  "husky":{
-    "hooks":{
-      "pre-commit":"lint-staged"
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
     }
   },
-  "lint-staged":{
-    "*.scss":"yarn lint:fix"
+  "lint-staged": {
+    "*.scss": "yarn lint:fix"
   },
   "devDependencies": {
     "husky": "^7.0.2",
