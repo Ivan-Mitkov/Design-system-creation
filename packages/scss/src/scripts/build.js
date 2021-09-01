@@ -9,7 +9,10 @@ const getComponents = () => {
     const allFiles = fs.readdirSync(`src/${comp}`).map((file) => {
       return {
         input: path.resolve(__dirname, `../${comp}`, `${file}`),
-        output: path.resolve(__dirname, `../lib/${file.slice(0, -4) + "css"}`),
+        output: path.resolve(
+          __dirname,
+          `../../lib/${file.slice(0, -4) + "css"}`
+        ),
       };
     });
 
@@ -29,6 +32,6 @@ const compile = (pathToCompile, fileName) => {
 };
 
 const pathToCompile = path.resolve(__dirname, "../global.scss");
-compile(pathToCompile, path.resolve(__dirname, "../lib", "global.css"));
+compile(pathToCompile, path.resolve(__dirname, "../../lib", "global.css"));
 console.log(getComponents());
 getComponents().forEach((comp) => compile(comp.input, comp.output));
