@@ -4,6 +4,6 @@ import { Color, Spacing } from "@ds.e/react";
 import "@ds.e/scss/lib/Utilities.css";
 
 ReactDOM.render(
-  <Color hexCode="#000" height={Spacing.sm} width={Spacing.sm} />,
+  <Color hexCode="#000" height="xs" width="lg" />,
   document.querySelector("#root")
 );
