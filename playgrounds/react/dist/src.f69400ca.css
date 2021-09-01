@@ -104,7 +104,8 @@
   background: var(--dse-btn-primary-bg, #5ece7b);
   color: var(--dse-btn-primary-color, #fff);
   border: none;
-  padding: 0.5rem;
+  padding: 0.25rem;
+  border-radius: 0.2rem;
 }
 
 
