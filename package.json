@@ -1,24 +1,23 @@
 {
-  "name": "DesignSystem",
-  "version": "1.0.0",
-  "main": "index.js",
+  "name": "@ds.e/core",
   "repository": "git@github.com:Ivan-Mitkov/Design-system-creation.git",
   "author": "Ivan Mitkov <ivan.mitkov@gmail.com>",
+  "version": "1.0.0",
+  "main": "index.js",
   "license": "MIT",
-  "scripts": {
-    "lint": "stylelint \"./**/*.{css,scss,sass}\"",
-    "lint:fix": "yarn lint --fix"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.scss": "yarn lint:fix"
-  },
   "devDependencies": {
-    "husky": "^7.0.2",
-    "lint-staged": "^11.1.2"
+    "lerna": "^4.0.0"
+  },
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ],
+    "nohoist": [
+      "**/normalize-scss"
+    ]
+  },
+  "scripts": {
+    "build": "yarn lerna run build"
   }
 }
