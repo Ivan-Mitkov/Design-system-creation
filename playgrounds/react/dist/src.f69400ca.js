@@ -29566,7 +29566,25 @@ if ("development" === 'production') {
 } else {
   module.exports = require('./cjs/react-dom.development.js');
 }
-},{"./cjs/react-dom.development.js":"../../../node_modules/react-dom/cjs/react-dom.development.js"}],"../../../node_modules/@ds.e/react/lib/foundation/Spacing.js":[function(require,module,exports) {
+},{"./cjs/react-dom.development.js":"../../../node_modules/react-dom/cjs/react-dom.development.js"}],"../../../node_modules/@ds.e/foundation/lib/Fontsize.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+const fontSizes = {
+  xs: "xs",
+  sm: "sm",
+  base: "base",
+  lg: "lg",
+  xl: "xl"
+};
+
+var _default = Object.freeze(fontSizes);
+
+exports.default = _default;
+},{}],"../../../node_modules/@ds.e/foundation/lib/Spacing.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -29592,9 +29610,35 @@ const spaces = {
   // 72px
   xxxl: "xxxl"
 };
-var Spacing = Object.freeze(spaces);
-exports.default = Spacing;
-},{}],"../../../node_modules/@ds.e/react/lib/atoms/Color/Color.js":[function(require,module,exports) {
+
+var _default = Object.freeze(spaces);
+
+exports.default = _default;
+},{}],"../../../node_modules/@ds.e/foundation/lib/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "FontSize", {
+  enumerable: true,
+  get: function () {
+    return _Fontsize.default;
+  }
+});
+Object.defineProperty(exports, "Spacing", {
+  enumerable: true,
+  get: function () {
+    return _Spacing.default;
+  }
+});
+
+var _Fontsize = _interopRequireDefault(require("./Fontsize"));
+
+var _Spacing = _interopRequireDefault(require("./Spacing"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+},{"./Fontsize":"../../../node_modules/@ds.e/foundation/lib/Fontsize.js","./Spacing":"../../../node_modules/@ds.e/foundation/lib/Spacing.js"}],"../../../node_modules/@ds.e/react/lib/atoms/Color/Color.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -29604,14 +29648,14 @@ exports.default = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _Spacing = _interopRequireDefault(require("../../foundation/Spacing.js"));
+var _foundation = require("@ds.e/foundation");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 const Color = ({
   hexCode,
-  width = _Spacing.default.sm,
-  height = _Spacing.default.sm
+  width = _foundation.Spacing.sm,
+  height = _foundation.Spacing.sm
 }) => {
   const className = `dse-width-${width} dse-height-${height}`;
   return _react.default.createElement("div", {
@@ -29623,7 +29667,7 @@ const Color = ({
 };
 
 exports.default = Color;
-},{"react":"../../../node_modules/react/index.js","../../foundation/Spacing.js":"../../../node_modules/@ds.e/react/lib/foundation/Spacing.js"}],"../../../node_modules/@ds.e/react/lib/index.js":[function(require,module,exports) {
+},{"react":"../../../node_modules/react/index.js","@ds.e/foundation":"../../../node_modules/@ds.e/foundation/lib/index.js"}],"../../../node_modules/@ds.e/react/lib/index.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -29635,19 +29679,11 @@ Object.defineProperty(exports, "Color", {
     return _Color.default;
   }
 });
-Object.defineProperty(exports, "Spacing", {
-  enumerable: true,
-  get: function () {
-    return _Spacing.default;
-  }
-});
 
 var _Color = _interopRequireDefault(require("./atoms/Color/Color.js"));
 
-var _Spacing = _interopRequireDefault(require("./foundation/Spacing.js"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-},{"./atoms/Color/Color.js":"../../../node_modules/@ds.e/react/lib/atoms/Color/Color.js","./foundation/Spacing.js":"../../../node_modules/@ds.e/react/lib/foundation/Spacing.js"}],"../../../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+},{"./atoms/Color/Color.js":"../../../node_modules/@ds.e/react/lib/atoms/Color/Color.js"}],"../../../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
 
 function getBundleURLCached() {
@@ -29766,7 +29802,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63556" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54206" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
