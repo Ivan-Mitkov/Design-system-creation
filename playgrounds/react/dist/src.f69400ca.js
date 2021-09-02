@@ -29752,12 +29752,37 @@ var _react = _interopRequireDefault(require("react"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+const Icon = () => _react.default.createElement("svg", {
+  width: "1.1rem",
+  height: "1.1rem",
+  xmlns: "http://www.w3.org/2000/svg",
+  className: "h-6 w-6",
+  fill: "none",
+  viewBox: "0 0 24 24",
+  stroke: "currentColor"
+}, _react.default.createElement("path", {
+  strokeLinecap: "round",
+  strokeLinejoin: "round",
+  strokeWidth: "{2}",
+  d: "M19 9l-7 7-7-7"
+}));
+
 const Select = ({
   options = [],
   label = "Please select an option",
   onOptionSelected
 }) => {
-  const [isOpen, setIsOpen] = _react.default.useState(false);
+  const [isOpen, setIsOpen] = _react.default.useState(false); //calculate height of the button
+
+
+  const labelRef = _react.default.useRef(null);
+
+  const [overlayTop, setOverlayTop] = _react.default.useState(0);
+
+  _react.default.useEffect(() => {
+    setOverlayTop((labelRef.current?.offsetHeight || 0) + 10);
+  }, [labelRef.current?.offsetHeight]); //options
+
 
   const onOptionClicked = (option, index) => {
     if (onOptionSelected) {
@@ -29769,9 +29794,19 @@ const Select = ({
     setIsOpen(!isOpen);
   };
 
-  return _react.default.createElement("div", null, _react.default.createElement("button", {
-    onClick: onLabelClick
-  }, label), isOpen && _react.default.createElement("ul", null, options.map((option, i) => {
+  return _react.default.createElement("div", {
+    className: "dse-select"
+  }, _react.default.createElement("button", {
+    className: "dse-select__label",
+    onClick: onLabelClick,
+    //to calculate the height of the button for the overlay position
+    ref: labelRef
+  }, _react.default.createElement("span", null, label), " ", _react.default.createElement(Icon, null)), isOpen && _react.default.createElement("ul", {
+    style: {
+      top: overlayTop
+    },
+    className: "dse-select__overlay"
+  }, options.map((option, i) => {
     return _react.default.createElement("li", {
       key: option.value,
       onClick: () => onOptionClicked(option, i)
@@ -29905,6 +29940,12 @@ module.exports = reloadCSS;
         module.hot.dispose(reloadCSS);
         module.hot.accept(reloadCSS);
       
+},{"_css_loader":"../../../node_modules/parcel-bundler/src/builtins/css-loader.js"}],"../../../node_modules/@ds.e/scss/lib/Select.css":[function(require,module,exports) {
+
+        var reloadCSS = require('_css_loader');
+        module.hot.dispose(reloadCSS);
+        module.hot.accept(reloadCSS);
+      
 },{"_css_loader":"../../../node_modules/parcel-bundler/src/builtins/css-loader.js"}],"index.tsx":[function(require,module,exports) {
 "use strict";
 
@@ -29919,6 +29960,8 @@ require("@ds.e/scss/lib/Utilities.css");
 require("@ds.e/scss/lib/Margin.css");
 
 require("@ds.e/scss/lib/Text.css");
+
+require("@ds.e/scss/lib/Select.css");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -29936,7 +29979,7 @@ var options = [{
 _reactDom.default.render(_react.default.createElement("div", null, _react.default.createElement(_react2.Select, {
   options: options
 })), document.querySelector("#root"));
-},{"react":"../../../node_modules/react/index.js","react-dom":"../../../node_modules/react-dom/index.js","@ds.e/react":"../../../node_modules/@ds.e/react/lib/index.js","@ds.e/scss/lib/Utilities.css":"../../../node_modules/@ds.e/scss/lib/Utilities.css","@ds.e/scss/lib/Margin.css":"../../../node_modules/@ds.e/scss/lib/Margin.css","@ds.e/scss/lib/Text.css":"../../../node_modules/@ds.e/scss/lib/Text.css"}],"../../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"react":"../../../node_modules/react/index.js","react-dom":"../../../node_modules/react-dom/index.js","@ds.e/react":"../../../node_modules/@ds.e/react/lib/index.js","@ds.e/scss/lib/Utilities.css":"../../../node_modules/@ds.e/scss/lib/Utilities.css","@ds.e/scss/lib/Margin.css":"../../../node_modules/@ds.e/scss/lib/Margin.css","@ds.e/scss/lib/Text.css":"../../../node_modules/@ds.e/scss/lib/Text.css","@ds.e/scss/lib/Select.css":"../../../node_modules/@ds.e/scss/lib/Select.css"}],"../../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
