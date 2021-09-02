@@ -7,6 +7,7 @@ export default {
     //user will be able to import just this files
     "src/atoms/Color/index.ts",
     "src/atoms/Margin/index.ts",
+    "src/molecules/Select/index.ts",
   ],
   output: {
     dir: "lib",
