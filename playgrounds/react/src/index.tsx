@@ -1,9 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { Color, Spacing } from "@ds.e/react";
+import { Margin, Text } from "@ds.e/react";
 import "@ds.e/scss/lib/Utilities.css";
+import "@ds.e/scss/lib/Margin.css";
+import "@ds.e/scss/lib/Text.css";
 
 ReactDOM.render(
-  <Color hexCode="#000" height="xs" width="lg" />,
+  <Margin right left bottom space="xxxl">
+    <Text size="xl">This is some text</Text>
+  </Margin>,
   document.querySelector("#root")
 );

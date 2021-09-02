@@ -6,6 +6,7 @@ export default {
     "src/index.ts",
     //user will be able to import just this files
     "src/atoms/Color/index.ts",
+    "src/atoms/Margin/index.ts",
   ],
   output: {
     dir: "lib",
@@ -15,5 +16,5 @@ export default {
   plugins: [Ts()],
   //preserve structure of src folder
   preserveModules: true,
-  external: ["react"],
+  external: ["react", "@ds.e/foundation"],
 };
