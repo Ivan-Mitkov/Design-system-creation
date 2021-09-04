@@ -4,7 +4,6 @@
   display: flex;
   flex-direction: column;
   position: relative;
-  outline: none;
   &__label {
     display: flex;
     align-items: center;
@@ -33,15 +32,26 @@
     width: 100%;
     box-sizing: border-box;
     cursor: pointer;
+
     @include padding("xs");
-    &:hover {
+    /*
+     &:hover {
+      background-color: $form-bg-color-hover;
+      color: $form-color;
+    } 
+    
+    */
+
+    &--highlighted {
       background-color: $form-bg-color-hover;
       color: $form-color;
     }
+
     &--selected {
       background-color: $form-bg-option-selected;
       color: $form-color-option-selected;
     }
+    
   }
   &__caret {
     transition: all 250ms ease;

@@ -1,46 +1,15 @@
 import React from "react";
 import Text from "../../atoms/Text";
 import Color from "../../atoms/Color";
-interface IconOption {
-  strokeColor?: string;
-  classes?: string;
-}
-const Icon: React.FC<IconOption> = ({ strokeColor, classes }) => (
-  <svg
-    width="1.1rem"
-    height="1.1rem"
-    xmlns="http://www.w3.org/2000/svg"
-    className={classes}
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke={strokeColor || "currentColor"}
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="{2}"
-      d="M19 9l-7 7-7-7"
-    />
-  </svg>
-);
-const CheckIcon: React.FC<IconOption> = ({ strokeColor }) => (
-  <svg
-    width="1rem"
-    height="1rem"
-    className="w-6 h-6"
-    fill="none"
-    stroke={strokeColor || "currentColor"}
-    viewBox="0 0 24 24"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="M5 13l4 4L19 7"
-    />
-  </svg>
-);
+import { CheckIcon, Icon } from "./icons";
+
+const KEY_KODES = {
+  ENTER: "Enter",
+  SPACE: " ",
+  DOWN_ARROW: "ArrowDown",
+  UP_ARROW: "ArrowUp",
+  ESCAPE: "Escape",
+};
 
 interface SelectOption {
   label: string;
@@ -66,15 +35,32 @@ const Select: React.FC<SelectProps> = ({
 }) => {
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
   const [selectedIndex, setSelectedIndex] = React.useState<number | null>(null);
+  /**
+   * move between options with keyboard 1
+   */
+  const [highlightedIndex, setHighlightedIndex] = React.useState<number | null>(
+    null
+  );
 
-  //calculate height of the button
+  const [optionsRefs, setOptionRefs] = React.useState<
+    React.RefObject<HTMLLIElement>[]
+  >([]);
+  React.useEffect(() => {
+    setOptionRefs(options.map((_) => React.createRef<HTMLLIElement>()));
+  }, [options.length]);
+
+  /**
+   * calculate height of the button
+   */
   const labelRef = React.useRef<HTMLButtonElement>(null);
   const [overlayTop, setOverlayTop] = React.useState<number>(0);
   React.useEffect(() => {
     setOverlayTop((labelRef.current?.offsetHeight || 0) + 10);
   }, [labelRef.current?.offsetHeight]);
 
-  //options
+  /**
+   * Options
+   */
   const onOptionClicked = (option: SelectOption, index: number) => {
     if (onOptionSelected) {
       onOptionSelected(option, index);
@@ -83,10 +69,89 @@ const Select: React.FC<SelectProps> = ({
     setIsOpen(false);
   };
 
-  const onLabelClick = () => {
+  const onLabelClick: React.MouseEventHandler = () => {
     setIsOpen(!isOpen);
   };
+  /**
+   * move between options with keyboard 2
+   */
+  const getNextOptionIndex = (
+    currentOptionIndex: number | null,
+    options: Array<SelectOption>
+  ) => {
+    if (currentOptionIndex === null) {
+      return 0;
+    }
+    if (currentOptionIndex === options.length - 1) {
+      return 0;
+    }
+    return currentOptionIndex + 1;
+  };
+  const getPreviousOptionIndex = (
+    currentOptionIndex: number | null,
+    options: Array<SelectOption>
+  ) => {
+    if (currentOptionIndex === null) {
+      return 0;
+    }
+    if (currentOptionIndex === 0) {
+      return options.length - 1;
+    }
+    return currentOptionIndex - 1;
+  };
+  React.useEffect(() => {
+    if (highlightedIndex !== null && isOpen) {
+      let ref = optionsRefs[highlightedIndex];
+      if (ref && ref.current) {
+        ref.current.focus();
+      }
+      if (selectedIndex !== null && isOpen) {
+        ref = optionsRefs[selectedIndex];
+        if (ref && ref.current) {
+          ref.current.focus();
+        }
+      }
+    }
+  }, [isOpen, highlightedIndex, selectedIndex]);
 
+  const higlightOption = (index: number | null) => {
+    setHighlightedIndex(index);
+  };
+  const onButtonKeyDown: React.KeyboardEventHandler = (event) => {
+    event.preventDefault();
+    if (
+      [KEY_KODES.ENTER, KEY_KODES.DOWN_ARROW, KEY_KODES.SPACE].includes(
+        event.key
+      )
+    ) {
+      setIsOpen(true);
+      //set focus on the list item
+      higlightOption(selectedIndex || 0);
+    }
+  };
+  const onOptionKeyDown: React.KeyboardEventHandler = (event) => {
+    console.log(event.key);
+    if (event.key === KEY_KODES.ESCAPE) {
+      setIsOpen(false);
+      return;
+    }
+    if (event.key === KEY_KODES.DOWN_ARROW) {
+      const nextOptionIndex = getNextOptionIndex(highlightedIndex, options);
+      higlightOption(nextOptionIndex);
+    }
+    if (event.key === KEY_KODES.UP_ARROW) {
+      const previousOptionIndex = getPreviousOptionIndex(
+        highlightedIndex,
+        options
+      );
+      higlightOption(previousOptionIndex);
+    }
+    if (event.key === KEY_KODES.ENTER) {
+      if (highlightedIndex !== null) {
+        onOptionClicked(options[highlightedIndex], highlightedIndex);
+      }
+    }
+  };
   let selectedOption = null;
   if (selectedIndex !== null) {
     selectedOption = options[selectedIndex].label;
@@ -97,6 +162,7 @@ const Select: React.FC<SelectProps> = ({
       <button
         className="dse-select__label"
         onClick={onLabelClick}
+        onKeyDown={onButtonKeyDown}
         //to calculate the height of the button for the overlay position
         ref={labelRef}
         //for screen readers
@@ -121,20 +187,42 @@ const Select: React.FC<SelectProps> = ({
         >
           {options.map((option, i) => {
             const isSelected = selectedIndex === i;
+            //pass control to state
+            const isHighLighted = highlightedIndex === i;
+            /**
+             * add refs for keybord moving
+             */
+            const ref = optionsRefs[i];
             /***
              * use render props for rendering component
              * */
             const renderOptionProps = {
               option,
               isSelected,
+
               getOptionRecommendedProps: (overrideProps = {}) => {
                 return {
                   //props we recomend
+                  role: "menuitemradio",
+                  "aria-checked": isSelected ? true : undefined,
+                  "aria-label": option.label,
+                  ref,
                   key: option.value,
+                  //https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex
+                  tabIndex: isHighLighted ? -1 : 0,
                   className: `dse-select__option ${
                     isSelected ? "dse-select__option--selected" : ""
-                  }`,
+                  } ${isHighLighted ? "dse-select__option--highlighted" : ""}`,
                   onClick: () => onOptionClicked(option, i),
+                  //control highlighted еlement with state NOT mouse hover
+                  onMouseEnter: () => {
+                    higlightOption(i);
+                  },
+                  onMouseLeave: () => {
+                    higlightOption(null);
+                  },
+                  onKeyDown: onOptionKeyDown,
+
                   //additional props
                   ...overrideProps,
                 };
@@ -147,13 +235,7 @@ const Select: React.FC<SelectProps> = ({
              * end use render props for rendering component
              * */
             return (
-              <li
-                key={option.value}
-                className={`dse-select__option ${
-                  isSelected ? "dse-select__option--selected" : ""
-                }`}
-                onClick={() => onOptionClicked(option, i)}
-              >
+              <li {...renderOptionProps.getOptionRecommendedProps()}>
                 {
                   //if we are using the renderProps we will overrides this components
                 }
