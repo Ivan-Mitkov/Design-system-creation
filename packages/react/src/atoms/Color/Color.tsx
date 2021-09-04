@@ -9,9 +9,14 @@ const Color: React.FC<ColorProps> = ({
   hexCode,
   width = Spacing.sm,
   height = Spacing.sm,
+  children,
 }) => {
   const className = `dse-width-${width} dse-height-${height}`;
-  return <div className={className} style={{ backgroundColor: hexCode }}></div>;
+  return (
+    <div className={className} style={{ backgroundColor: hexCode }}>
+      {children}
+    </div>
+  );
 };
 
 export default Color;
