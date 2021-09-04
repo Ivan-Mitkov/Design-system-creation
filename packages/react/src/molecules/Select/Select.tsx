@@ -91,7 +91,6 @@ const Select: React.FC<SelectProps> = ({
   if (selectedIndex !== null) {
     selectedOption = options[selectedIndex].label;
   }
-  //use render props for rendering component
 
   return (
     <div className="dse-select">
@@ -100,6 +99,10 @@ const Select: React.FC<SelectProps> = ({
         onClick={onLabelClick}
         //to calculate the height of the button for the overlay position
         ref={labelRef}
+        //for screen readers
+        aria-haspopup={true}
+        aria-expanded={isOpen ? true : undefined}
+        aria-controls="dse-select-list"
       >
         <Text>{selectedIndex === null ? label : selectedOption}</Text>{" "}
         <Icon
@@ -109,9 +112,18 @@ const Select: React.FC<SelectProps> = ({
         />
       </button>
       {isOpen && (
-        <ul style={{ top: overlayTop }} className="dse-select__overlay">
+        <ul
+          //screen readers
+          role="menu"
+          id="dse-select-list"
+          style={{ top: overlayTop }}
+          className="dse-select__overlay"
+        >
           {options.map((option, i) => {
             const isSelected = selectedIndex === i;
+            /***
+             * use render props for rendering component
+             * */
             const renderOptionProps = {
               option,
               isSelected,
@@ -131,6 +143,9 @@ const Select: React.FC<SelectProps> = ({
             if (renderOption) {
               return renderOption(renderOptionProps);
             }
+            /***
+             * end use render props for rendering component
+             * */
             return (
               <li
                 key={option.value}
