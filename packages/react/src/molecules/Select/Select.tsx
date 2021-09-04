@@ -3,13 +3,14 @@ import Text from "../../atoms/Text";
 import Color from "../../atoms/Color";
 interface IconOption {
   strokeColor?: string;
+  classes?: string;
 }
-const Icon: React.FC<IconOption> = ({ strokeColor }) => (
+const Icon: React.FC<IconOption> = ({ strokeColor, classes }) => (
   <svg
     width="1.1rem"
     height="1.1rem"
     xmlns="http://www.w3.org/2000/svg"
-    className="h-6 w-6"
+    className={classes}
     fill="none"
     viewBox="0 0 24 24"
     stroke={strokeColor || "currentColor"}
@@ -91,7 +92,12 @@ const Select: React.FC<SelectProps> = ({
         //to calculate the height of the button for the overlay position
         ref={labelRef}
       >
-        <Text>{selectedIndex === null ? label : selectedOption}</Text> <Icon />
+        <Text>{selectedIndex === null ? label : selectedOption}</Text>{" "}
+        <Icon
+          classes={`dse-select__caret ${
+            isOpen ? "dse-select__caret--open" : "dse-select__caret--closed"
+          }`}
+        />
       </button>
       {isOpen && (
         <ul style={{ top: overlayTop }} className="dse-select__overlay">
