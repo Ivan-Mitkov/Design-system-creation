@@ -66,7 +66,11 @@ const Select: React.FC<SelectProps> = ({
         <ul style={{ top: overlayTop }} className="dse-select__overlay">
           {options.map((option, i) => {
             return (
-              <li key={option.value} onClick={() => onOptionClicked(option, i)}>
+              <li
+                key={option.value}
+                className="dse-select__option"
+                onClick={() => onOptionClicked(option, i)}
+              >
                 {option.label}
               </li>
             );

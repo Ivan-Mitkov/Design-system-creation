@@ -20,7 +20,7 @@ const options = [
   },
 ];
 ReactDOM.render(
-  <div>
+  <div style={{ margin: "50px" }}>
     <Select options={options} />
   </div>,
   document.querySelector("#root")
