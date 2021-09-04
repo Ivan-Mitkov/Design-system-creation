@@ -21,7 +21,13 @@ const options = [
 ];
 ReactDOM.render(
   <div style={{ margin: "50px" }}>
-    <Select options={options} />
+    <Select
+      options={options}
+      ////use this if we want to override something
+      // renderOption={({ option, getOptionRecommendedProps }) => {
+      //   return <p {...getOptionRecommendedProps()}>{option.label}</p>;
+      // }}
+    />
   </div>,
   document.querySelector("#root")
 );

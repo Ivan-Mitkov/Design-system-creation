@@ -46,16 +46,23 @@ interface SelectOption {
   label: string;
   value: string;
 }
+interface RenderOptionsProps {
+  isSelected: boolean;
+  option: SelectOption;
+  getOptionRecommendedProps: (overrideProps?: Object) => Object;
+}
 interface SelectProps {
   onOptionSelected?: (option: SelectOption, optionIndex: number) => void;
   options?: SelectOption[];
   label?: string;
+  renderOption?: (props: RenderOptionsProps) => React.ReactElement;
 }
 
 const Select: React.FC<SelectProps> = ({
   options = [],
   label = "Please select an option",
   onOptionSelected,
+  renderOption,
 }) => {
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
   const [selectedIndex, setSelectedIndex] = React.useState<number | null>(null);
@@ -84,6 +91,8 @@ const Select: React.FC<SelectProps> = ({
   if (selectedIndex !== null) {
     selectedOption = options[selectedIndex].label;
   }
+  //use render props for rendering component
+
   return (
     <div className="dse-select">
       <button
@@ -103,6 +112,25 @@ const Select: React.FC<SelectProps> = ({
         <ul style={{ top: overlayTop }} className="dse-select__overlay">
           {options.map((option, i) => {
             const isSelected = selectedIndex === i;
+            const renderOptionProps = {
+              option,
+              isSelected,
+              getOptionRecommendedProps: (overrideProps = {}) => {
+                return {
+                  //props we recomend
+                  key: option.value,
+                  className: `dse-select__option ${
+                    isSelected ? "dse-select__option--selected" : ""
+                  }`,
+                  onClick: () => onOptionClicked(option, i),
+                  //additional props
+                  ...overrideProps,
+                };
+              },
+            };
+            if (renderOption) {
+              return renderOption(renderOptionProps);
+            }
             return (
               <li
                 key={option.value}
@@ -111,12 +139,18 @@ const Select: React.FC<SelectProps> = ({
                 }`}
                 onClick={() => onOptionClicked(option, i)}
               >
+                {
+                  //if we are using the renderProps we will overrides this components
+                }
                 <Text size="sm">{option.label}</Text>
                 {isSelected && (
                   <Color hexCode="#ffffff">
                     <CheckIcon strokeColor={"#5ece7b"} />
                   </Color>
                 )}
+                {
+                  //override end
+                }
               </li>
             );
           })}

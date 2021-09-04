@@ -36,6 +36,7 @@
     @include padding("xs");
     &:hover {
       background-color: $form-bg-color-hover;
+      color: $form-color;
     }
     &--selected {
       background-color: $form-bg-option-selected;
