@@ -130,7 +130,7 @@ const Select: React.FC<SelectProps> = ({
     }
   };
   const onOptionKeyDown: React.KeyboardEventHandler = (event) => {
-    console.log(event.key);
+    // console.log(event.key);
     if (event.key === KEY_KODES.ESCAPE) {
       setIsOpen(false);
       return;
@@ -160,6 +160,7 @@ const Select: React.FC<SelectProps> = ({
   return (
     <div className="dse-select">
       <button
+        data-testid="DseSelectButton"
         className="dse-select__label"
         onClick={onLabelClick}
         onKeyDown={onButtonKeyDown}

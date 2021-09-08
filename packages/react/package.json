@@ -12,6 +12,17 @@
   },
   "scripts": {
     "build": "rollup -c",
-    "dev":"yarn build --watch"
+    "dev": "yarn build --watch",
+    "test": "jest --verbose",
+    "test:watch": "yarn test --watch"
+  },
+  "dependencies": {
+    "@babel/preset-env": "^7.15.4",
+    "@babel/preset-react": "^7.14.5",
+    "@babel/preset-typescript": "^7.15.0",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^12.0.0",
+    "@types/jest": "^27.0.1",
+    "jest": "^27.1.1"
   }
 }
