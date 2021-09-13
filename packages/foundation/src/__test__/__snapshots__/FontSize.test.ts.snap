@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`snapshot of fontsizes 1`] = `
+Object {
+  "base": "base",
+  "inherit": "inherit",
+  "lg": "lg",
+  "sm": "sm",
+  "xl": "xl",
+  "xs": "xs",
+}
+`;
